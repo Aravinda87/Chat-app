@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Toaster from "./Toaster";
 
 function Login() {
-  const [showlogin, setShowLogin] = useState(false);
+  const [showlogin, setShowLogin] = useState(true);
   const [data, setData] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
