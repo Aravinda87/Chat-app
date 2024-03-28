@@ -100,6 +100,7 @@ function Login() {
         </div>
         {showlogin && (
           <div className="login-box">
+              <img src={logo} alt="Logo" className="welcome-logo mob-logo" />
             <p className="login-text">Login to your Account</p>
             <TextField
               onChange={changeHandler}

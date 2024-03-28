@@ -20,7 +20,7 @@
   flex: 0.3;
   display: flex;
   flex-direction: column;
-}
+} 
 
 .chatArea-container {
   flex: 0.7;
@@ -362,6 +362,10 @@ input:focus {
   justify-content: space-evenly;
 }
 
+.mob-logo{
+  display: none;
+}
+
 @media only screen and (max-width: 40em) {
   .sb-search {
     display: none;
@@ -372,19 +376,54 @@ input:focus {
   .sb-header {
     flex-direction: column;
     flex: 1;
-    width: min-content;
+    justify-content: space-between;
+    height:max-content;
   }
   .other-icons {
-    flex-direction: column;
+    flex-direction: row;
+    flex: 0;
   }
   .chatArea-container {
     flex: 1;
   }
   .sidebar-container {
+    flex-direction: row;
     flex: 0;
+    height:max-content;
   }
   .main-container {
+    flex-direction: column;
     height: 100vh;
     width: 100vw;
+  }
+  .image-container {
+    display: none;
+  }
+  .login-box{
+    flex: 1;
+  }
+  .login-text{
+    font-size: 6vw;
+  }
+  .mob-logo{
+    display:flex;
+    height: 140px;
+  }
+  .welcome-container{
+    flex: 1;
+    border: none;
+  }
+  .list-container{
+    flex: 1;
+  }
+  .createGroups-container{
+    flex: 0;
+  }
+  .welcome-p{
+    padding: 10px;
+    text-align: center;
+  }
+  .welcome-logo{
+    height: 150px;
   }
 }

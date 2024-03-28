@@ -24,7 +24,7 @@ function Welcome() {
         className="welcome-logo"
       />
       <b>Hi , {userData.data.name} 👋</b>
-      <p>View and text directly to people present in the chat Rooms.</p>
+      <p className="welcome-p">View and text directly to people present in the chat Rooms.</p>
     </div>
   );
 }
