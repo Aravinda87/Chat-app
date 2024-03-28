@@ -14,6 +14,7 @@ import { toggleTheme } from "../Features/themeSlice";
 import axios from "axios";
 import { refreshSidebarFun } from "../Features/refreshSidebar";
 import { myContext } from "./MainContainer";
+import { BASE_URL } from "../services/helper";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ function Sidebar() {
       },
     };
 
-    axios.get("http://localhost:8080/chat/", config).then((response) => {
+    axios.get(`${BASE_URL}/chat/`, config).then((response) => {
       console.log("Data refresh in sidebar ", response.data);
       setConversations(response.data);
       // setRefresh(!refresh);

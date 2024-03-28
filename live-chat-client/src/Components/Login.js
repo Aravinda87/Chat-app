@@ -4,6 +4,7 @@ import { Backdrop, Button, CircularProgress, TextField } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Toaster from "./Toaster";
+import { BASE_URL } from "../services/helper";
 
 function Login() {
   const [showlogin, setShowLogin] = useState(true);
@@ -30,7 +31,7 @@ function Login() {
       };
 
       const response = await axios.post(
-        "http://localhost:8080/user/login/",
+        `${BASE_URL}/user/login/`,
         data,
         config
       );
@@ -58,7 +59,7 @@ function Login() {
       };
 
       const response = await axios.post(
-        "http://localhost:8080/user/register/",
+        `${BASE_URL}/user/register/`,
         data,
         config
       );

@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 import axios from "axios";
 import { myContext } from "./MainContainer";
+import { BASE_URL } from "../services/helper";
 
 function ChatArea() {
   const lightTheme = useSelector((state) => state.themeKey);
@@ -32,7 +33,7 @@ function ChatArea() {
     };
     axios
       .post(
-        "http://localhost:8080/message/",
+        `${BASE_URL}/message/`,
         {
           content: messageContent,
           chatId: chat_id,
@@ -55,7 +56,7 @@ function ChatArea() {
       },
     };
     axios
-      .get("http://localhost:8080/message/" + chat_id, config)
+      .get(`${BASE_URL}/message/` + chat_id, config)
       .then(({ data }) => {
         setAllMessages(data);
         setloaded(true);

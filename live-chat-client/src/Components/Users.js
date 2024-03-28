@@ -10,6 +10,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { refreshSidebarFun } from "../Features/refreshSidebar";
 import { myContext } from "./MainContainer";
+import { BASE_URL } from "../services/helper";
 
 function Users() {
   // const [refresh, setRefresh] = useState(true);
@@ -34,7 +35,7 @@ function Users() {
         Authorization: `Bearer ${userData.data.token}`,
       },
     };
-    axios.get("http://localhost:8080/user/fetchUsers", config).then((data) => {
+    axios.get(`${BASE_URL}/user/fetchUsers`, config).then((data) => {
       console.log("UData refreshed in Users panel ");
       setUsers(data.data);
       // setRefresh(!refresh);
@@ -94,7 +95,7 @@ function Users() {
                     },
                   };
                   axios.post(
-                    "http://localhost:8080/chat/",
+                    `${BASE_URL}/chat/`,
                     {
                       userId: user._id,
                     },
