@@ -111,7 +111,7 @@ function Sidebar() {
           </IconButton>
         </div>
       </div>
-      <div className={"sb-search" + (lightTheme ? "" : " dark")}>
+      {/* <div className={"sb-search" + (lightTheme ? "" : " dark")}>
         <IconButton className={"icon" + (lightTheme ? "" : " dark")}>
           <SearchIcon />
         </IconButton>
@@ -119,7 +119,7 @@ function Sidebar() {
           placeholder="Search"
           className={"search-box" + (lightTheme ? "" : " dark")}
         />
-      </div>
+      </div> */}
       <div className={"sb-conversations" + (lightTheme ? "" : " dark")}>
 
         {conversations.map((conversation, index) => {
@@ -152,7 +152,7 @@ function Sidebar() {
                   // dispatch change to refresh so as to update chatArea
                 >
                   <p className={"con-icon" + (lightTheme ? "" : " dark")}>
-                    {conversation.users[1].name[0]}
+                    {conversation.users.name[0]}
                   </p>
                   <p className={"con-title" + (lightTheme ? "" : " dark")}>
                     {conversation.users[1].name}
@@ -185,7 +185,7 @@ function Sidebar() {
                   {conversation.users[1].name[0]}
                 </p>
                 <p className={"con-title" + (lightTheme ? "" : " dark")}>
-                  {conversation.users[1].name}
+                  {user.name}
                 </p>
 
                 <p className="con-lastMessage">

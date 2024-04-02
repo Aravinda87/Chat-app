@@ -346,8 +346,10 @@ input:focus {
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 20px;
   padding: 10px 5px;
+  padding-right: 15px;
   margin: 10px;
   user-select: none;
+  justify-content: space-between;
 }
 
 .hyper {
@@ -366,9 +368,15 @@ input:focus {
   display: none;
 }
 
+
+.group-txt{
+  display: flex;
+  align-items: center;
+}
+
 @media only screen and (max-width: 40em) {
   .sb-search {
-    display: none;
+    /* display: none; */
   }
   .sb-conversations {
     display: none;

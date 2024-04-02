@@ -94,34 +94,31 @@ function Users() {
                 className={"list-tem" + (lightTheme ? "" : " dark")}
                 key={index}
 
-                // onClick={() => {
-                //   console.log("Creating chat with ", user.name);
-                //   const config = {
-                //     headers: {
-                //       Authorization: `Bearer ${userData.data.token}`,
-                //     },
-                //   };
-                //   navigate(
-                //     "chat/" +
-                //       conversation._id +
-                //       "&" +
-                //       conversation.users[1].name
-                //   );
-                //   axios.post(
-                //     `${BASE_URL}/chat/`,
-                //     {
-                //       userId: user._id,
-                //     },
-                //     config
-                //   );
-                //   dispatch(refreshSidebarFun());
-                // }}
+                onClick={() => {
+                  // console.log("Creating chat with ", user.name);
+                  const config = {
+                    headers: {
+                      Authorization: `Bearer ${userData.data.token}`,
+                    },
+                  };
+
+                  axios.post(
+                    `${BASE_URL}/chat/`,
+                    {
+                      userId: user._id,
+                    },
+                    config
+                  );
+                  dispatch(refreshSidebarFun());
+                }}
               
               >
+                <div className="group-txt">
                 <p className={"con-icon" + (lightTheme ? "" : " dark")}>T</p>
                 <p className={"con-title" + (lightTheme ? "" : " dark")}>
                   {user.name}
                 </p>
+                </div>
               </motion.div>
             );
           })}
