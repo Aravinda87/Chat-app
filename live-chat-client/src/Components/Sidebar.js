@@ -180,7 +180,7 @@ function Sidebar() {
                       conversation.users[1].name
                   );
                 }}
-              >
+              > 
                 <p className={"con-icon" + (lightTheme ? "" : " dark")}>
                   {conversation.users[1].name[0]}
                 </p>
