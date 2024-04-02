@@ -5,7 +5,7 @@ const app = express();
 const cors = require("cors"); 
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
-app.use(
+app.use( 
   cors({
     origin: "*",
   })
@@ -41,4 +41,38 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log("Server is Running..."));
+const server = app.listen(PORT, console.log("Server is Running..."));
+
+const io = require("socket.io")(server,{
+  cors:{
+    origin : "*",
+  },
+  pingTimeout : 6000,
+});
+
+io.on("connection",(socket) =>{
+  socket.on("setup",(user) =>{
+    socket.join(user.data._id);
+    socket.emit("connected")
+  });
+
+  socket.on("join chat", (room)=>{
+    socket.join(room);
+  });
+  
+  socket.on("new message", (newmessagestatus)=>{
+    
+    var chat = newmessagestatus.chat;
+
+    if(!chat.users)
+    {
+      return console.log("chat.users not defined");
+    }
+
+    chat.users.forEach((user) => {
+      if(user._id == newmessagestatus.sender._id) return;
+      socket.in(user._id).emit("message recieved",newmessagerecieved)
+    
+    });
+  });
+});

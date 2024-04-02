@@ -15,12 +15,13 @@ import { BASE_URL } from "../services/helper";
 function Users() {
   // const [refresh, setRefresh] = useState(true);
   const { refresh, setRefresh } = useContext(myContext);
-
+  // const [conversations, setConversations] = useState([]);
   const lightTheme = useSelector((state) => state.themeKey);
   const [users, setUsers] = useState([]);
   const userData = JSON.parse(localStorage.getItem("userData"));
   // console.log("Data from LocalStorage : ", userData);
   const nav = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   if (!userData) {
@@ -38,6 +39,11 @@ function Users() {
     axios.get(`${BASE_URL}/user/fetchUsers`, config).then((data) => {
       console.log("UData refreshed in Users panel ");
       setUsers(data.data);
+      // setRefresh(!refresh);
+    });
+    axios.get(`${BASE_URL}/chat/`, config).then((response) => {
+      console.log("Data refresh in sidebar ", response.data);
+      // setConversations(response.data);
       // setRefresh(!refresh);
     });
   }, [refresh]);
@@ -87,22 +93,30 @@ function Users() {
                 whileTap={{ scale: 0.98 }}
                 className={"list-tem" + (lightTheme ? "" : " dark")}
                 key={index}
-                onClick={() => {
-                  console.log("Creating chat with ", user.name);
-                  const config = {
-                    headers: {
-                      Authorization: `Bearer ${userData.data.token}`,
-                    },
-                  };
-                  axios.post(
-                    `${BASE_URL}/chat/`,
-                    {
-                      userId: user._id,
-                    },
-                    config
-                  );
-                  dispatch(refreshSidebarFun());
-                }}
+
+                // onClick={() => {
+                //   console.log("Creating chat with ", user.name);
+                //   const config = {
+                //     headers: {
+                //       Authorization: `Bearer ${userData.data.token}`,
+                //     },
+                //   };
+                //   navigate(
+                //     "chat/" +
+                //       conversation._id +
+                //       "&" +
+                //       conversation.users[1].name
+                //   );
+                //   axios.post(
+                //     `${BASE_URL}/chat/`,
+                //     {
+                //       userId: user._id,
+                //     },
+                //     config
+                //   );
+                //   dispatch(refreshSidebarFun());
+                // }}
+              
               >
                 <p className={"con-icon" + (lightTheme ? "" : " dark")}>T</p>
                 <p className={"con-title" + (lightTheme ? "" : " dark")}>

@@ -23,7 +23,9 @@ function Sidebar() {
   // const refresh = useSelector((state) => state.refreshKey);
   const { refresh, setRefresh } = useContext(myContext);
   console.log("Context API : refresh : ", refresh);
+
   const [conversations, setConversations] = useState([]);
+  
   // console.log("Conversations of Sidebar : ", conversations);
   const userData = JSON.parse(localStorage.getItem("userData"));
   // console.log("Data from LocalStorage : ", userData);
@@ -119,6 +121,7 @@ function Sidebar() {
         />
       </div>
       <div className={"sb-conversations" + (lightTheme ? "" : " dark")}>
+
         {conversations.map((conversation, index) => {
           // console.log("current convo : ", conversation);
           if (conversation.users.length === 1) {
@@ -139,7 +142,7 @@ function Sidebar() {
                   key={index}
                   className="conversation-container"
                   onClick={() => {
-                    navigate(
+                    navigate( 
                       "chat/" +
                         conversation._id +
                         "&" +
