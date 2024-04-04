@@ -15,6 +15,7 @@ import axios from "axios";
 import { refreshSidebarFun } from "../Features/refreshSidebar";
 import { myContext } from "./MainContainer";
 import { BASE_URL } from "../services/helper";
+import { AnimatePresence, motion } from "framer-motion";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -24,20 +25,32 @@ function Sidebar() {
   const { refresh, setRefresh } = useContext(myContext);
   console.log("Context API : refresh : ", refresh);
 
-  const [conversations, setConversations] = useState([]);
-  
-  // console.log("Conversations of Sidebar : ", conversations);
+  // const [conversations, setConversations] = useState([]);
+  const [users, setUsers] = useState([]);
   const userData = JSON.parse(localStorage.getItem("userData"));
-  // console.log("Data from LocalStorage : ", userData);
+
   const nav = useNavigate();
   if (!userData) {
     console.log("User not Authenticated");
     nav("/");
   }
+  
+  useEffect(() => {
+    console.log("Users refreshed");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.data.token}`,
+      },
+    };
+    axios.get(`${BASE_URL}/user/fetchUsers`, config).then((response) => {
+      console.log("UData refreshed in Users panel ");
+      setUsers(response.data);
+      // setRefresh(!refresh);
+    });
+  }, [refresh,userData.data.token]);
 
   const user = userData.data;
   useEffect(() => {
-    // console.log("Sidebar : ", user.token);
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -46,8 +59,8 @@ function Sidebar() {
 
     axios.get(`${BASE_URL}/chat/`, config).then((response) => {
       console.log("Data refresh in sidebar ", response.data);
-      setConversations(response.data);
-      // setRefresh(!refresh);
+      // setConversations(response.data);
+      setRefresh(!refresh);
     });
   }, [refresh]);
 
@@ -111,94 +124,54 @@ function Sidebar() {
           </IconButton>
         </div>
       </div>
-      {/* <div className={"sb-search" + (lightTheme ? "" : " dark")}>
-        <IconButton className={"icon" + (lightTheme ? "" : " dark")}>
-          <SearchIcon />
-        </IconButton>
-        <input
-          placeholder="Search"
-          className={"search-box" + (lightTheme ? "" : " dark")}
-        />
-      </div> */}
+      
       <div className={"sb-conversations" + (lightTheme ? "" : " dark")}>
-
-        {conversations.map((conversation, index) => {
-          // console.log("current convo : ", conversation);
-          if (conversation.users.length === 1) {
-            return <div key={index}></div>;
-          }
-          if (conversation.latestMessage === undefined) {
-            // console.log("No Latest Message with ", conversation.users[1]);
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
+        transition={{
+          duration: "0.3",
+        }}
+        className="list-container"
+      >
+        <div className="ug-list">
+          {users.map((user, index) => {
             return (
-              <div
+              <motion.div
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.98 }}
+                className={"list-tem" + (lightTheme ? "" : " dark")}
                 key={index}
                 onClick={() => {
-                  console.log("Refresh fired from sidebar");
-                  // dispatch(refreshSidebarFun());
-                  setRefresh(!refresh);
+                navigate( 
+                      "chat/" +
+                      user._id +
+                      "&" +
+                      user.name
+                        );
                 }}
               >
-                <div
-                  key={index}
-                  className="conversation-container"
-                  onClick={() => {
-                    navigate( 
-                      "chat/" +
-                        conversation._id +
-                        "&" +
-                        conversation.users[1].name
-                    );
-                  }}
-                  // dispatch change to refresh so as to update chatArea
-                >
-                  <p className={"con-icon" + (lightTheme ? "" : " dark")}>
-                    {conversation.users.name[0]}
-                  </p>
-                  <p className={"con-title" + (lightTheme ? "" : " dark")}>
-                    {conversation.users[1].name}
-                  </p>
-
-                  <p className="con-lastMessage">
-                    No previous Messages, click here to start a new chat
-                  </p>
-                  {/* <p className={"con-timeStamp" + (lightTheme ? "" : " dark")}>
-                {conversation.timeStamp}
-              </p> */}
+                <div className="group-txt">
+                    <p className={"con-icon" + (lightTheme ? "" : " dark")}>{user.name[0]}</p>
+                    <p className={"con-title" + (lightTheme ? "" : " dark")}>
+                      {user.name}
+                    </p>
+                    <p className="con-lastMessage">
+                      {user.latestMessage}
+                    </p>
                 </div>
-              </div>
+              </motion.div>
+            
             );
-          } else {
-            return (
-              <div
-                key={index}
-                className="conversation-container"
-                onClick={() => {
-                  navigate(
-                    "chat/" +
-                      conversation._id +
-                      "&" +
-                      conversation.users[1].name
-                  );
-                }}
-              > 
-                <p className={"con-icon" + (lightTheme ? "" : " dark")}>
-                  {conversation.users[1].name[0]}
-                </p>
-                <p className={"con-title" + (lightTheme ? "" : " dark")}>
-                  {user.name}
-                </p>
+          })}
+        </div>
 
-                <p className="con-lastMessage">
-                  {conversation.latestMessage.content}
-                </p>
-                {/* <p className={"con-timeStamp" + (lightTheme ? "" : " dark")}>
-                {conversation.timeStamp}
-              </p> */}
-              </div>
-            );
-          }
-        })}
+
+      </motion.div>
       </div>
+
+
     </div>
   );
 }

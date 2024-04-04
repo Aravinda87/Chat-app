@@ -14,19 +14,20 @@ import { BASE_URL } from "../services/helper";
 
 function Users() {
   // const [refresh, setRefresh] = useState(true);
-  const { refresh, setRefresh } = useContext(myContext);
-  // const [conversations, setConversations] = useState([]);
+  const { refresh, setRefresh } = useContext(myContext);  
   const lightTheme = useSelector((state) => state.themeKey);
   const [users, setUsers] = useState([]);
   const userData = JSON.parse(localStorage.getItem("userData"));
-  // console.log("Data from LocalStorage : ", userData);
+
+
   const nav = useNavigate();
-  // const navigate = useNavigate();
+  
+  
   const dispatch = useDispatch();
 
   if (!userData) {
     console.log("User not Authenticated");
-    nav(-1);
+    nav("/");
   }
 
   useEffect(() => {
@@ -36,15 +37,23 @@ function Users() {
         Authorization: `Bearer ${userData.data.token}`,
       },
     };
-    axios.get(`${BASE_URL}/user/fetchUsers`, config).then((data) => {
+    axios.get(`${BASE_URL}/user/fetchUsers`, config).then((response) => {
       console.log("UData refreshed in Users panel ");
-      setUsers(data.data);
-      // setRefresh(!refresh);
+      setUsers(response.data);
     });
+  }, [refresh,userData.data.token]);
+
+  const user = userData.data;
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
     axios.get(`${BASE_URL}/chat/`, config).then((response) => {
       console.log("Data refresh in sidebar ", response.data);
-      // setConversations(response.data);
-      // setRefresh(!refresh);
+      setRefresh(!refresh);
     });
   }, [refresh]);
 
@@ -70,7 +79,7 @@ function Users() {
           <IconButton
             className={"icon" + (lightTheme ? "" : " dark")}
             onClick={() => {
-              setRefresh(!refresh);
+              // setRefresh(!refresh);
             }}
           >
             <RefreshIcon />
@@ -85,44 +94,40 @@ function Users() {
             className={"search-box" + (lightTheme ? "" : " dark")}
           />
         </div>
+
         <div className="ug-list">
-          {users.map((user, index) => {
+          
+          {
+          users.map((user, index) => {
             return (
               <motion.div
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
                 className={"list-tem" + (lightTheme ? "" : " dark")}
                 key={index}
-
                 onClick={() => {
-                  // console.log("Creating chat with ", user.name);
-                  const config = {
-                    headers: {
-                      Authorization: `Bearer ${userData.data.token}`,
-                    },
-                  };
-
-                  axios.post(
-                    `${BASE_URL}/chat/`,
-                    {
-                      userId: user._id,
-                    },
-                    config
-                  );
-                  dispatch(refreshSidebarFun());
+                nav( 
+                      "../chat/" +
+                      user._id +
+                      "&" +
+                      user.name
+                        );
                 }}
-              
               >
+
                 <div className="group-txt">
-                <p className={"con-icon" + (lightTheme ? "" : " dark")}>T</p>
+                <p className={"con-icon" + (lightTheme ? "" : " dark")}>{user.name[0]}</p>
                 <p className={"con-title" + (lightTheme ? "" : " dark")}>
                   {user.name}
                 </p>
                 </div>
+
               </motion.div>
+            
             );
           })}
         </div>
+
       </motion.div>
     </AnimatePresence>
   );
