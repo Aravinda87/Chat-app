@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { refreshSidebarFun } from "../Features/refreshSidebar";
 import { myContext } from "./MainContainer";
 import { BASE_URL } from "../services/helper";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Users() {
   // const [refresh, setRefresh] = useState(true);
@@ -116,7 +117,9 @@ function Users() {
               >
 
                 <div className="group-txt">
-                <p className={"con-icon" + (lightTheme ? "" : " dark")}>{user.name[0]}</p>
+                <p className={"con-icon" + (lightTheme ? "" : " dark")}>
+                <AccountCircleIcon/>
+                </p>
                 <p className={"con-title" + (lightTheme ? "" : " dark")}>
                   {user.name}
                 </p>

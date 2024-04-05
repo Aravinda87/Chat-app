@@ -10,7 +10,6 @@ function Login() {
   const [showlogin, setShowLogin] = useState(true);
   const [data, setData] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
-
   const [logInStatus, setLogInStatus] = React.useState("");
   const [signInStatus, setSignInStatus] = React.useState("");
 
@@ -48,7 +47,6 @@ function Login() {
     }
     setLoading(false);
   };
-
   const signUpHandler = async () => {
     setLoading(true);
     try {
@@ -57,7 +55,6 @@ function Login() {
           "Content-type": "application/json",
         },
       };
-
       const response = await axios.post(
         `${BASE_URL}/user/register/`,
         data,

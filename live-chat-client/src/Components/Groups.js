@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { refreshSidebarFun } from "../Features/refreshSidebar";
 import { myContext } from "./MainContainer";
 import { BASE_URL } from "../services/helper";
+import GroupsIcon from '@mui/icons-material/Groups';
 
 function Groups() {
   // const [refresh, setRefresh] = useState(true);
@@ -35,12 +36,12 @@ function Groups() {
         Authorization: `Bearer ${user.token}`,
       },
     };
-
     axios
       .get(`${BASE_URL}/chat/fetchGroups`, config)
       .then((response) => {
         console.log("Group Data from API ", response.data);
         SetGroups(response.data);
+        setRefresh(!refresh);
       });
   }, [refresh]);
 
@@ -92,23 +93,32 @@ function Groups() {
                 key={index}
                 onClick={() => {
                   console.log("Creating chat with group", group.name);
-                  // const config = {
-                  //   headers: {
-                  //     Authorization: `Bearer ${userData.data.token}`,
-                  //   },
-                  // };
-                  // axios.post(
-                  //   "http://localhost:8080/chat/",
-                  //   {
-                  //     userId: user._id,
-                  //   },
-                  //   config
-                  // );
+                  const config = {
+                    headers: {
+                      Authorization: `Bearer ${userData.data.token}`,
+                    },
+                  };
+                  axios.post(
+                    `${BASE_URL}/chat/`,
+                    {
+                      userId: user._id,
+                    },
+                    config
+                  );
                   dispatch(refreshSidebarFun());
+                  nav( 
+                    "chat/" +
+                    user._id +
+                    "&" +
+                    user.name
+                      );
+
                 }}
               >
                 <div className="group-txt">
-                  <p className={"con-icon" + (lightTheme ? "" : " dark")}>T</p>
+                  <p className={"con-icon" + (lightTheme ? "" : " dark")}>
+                    <GroupsIcon/>
+                  </p>
                   <p className={"con-title" + (lightTheme ? "" : " dark")}>
                     {group.chatName}
                   </p>

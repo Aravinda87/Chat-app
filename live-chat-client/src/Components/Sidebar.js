@@ -17,6 +17,7 @@ import { myContext } from "./MainContainer";
 import { BASE_URL } from "../services/helper";
 import { AnimatePresence, motion } from "framer-motion";
 
+
 function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,12 +35,13 @@ function Sidebar() {
     console.log("User not Authenticated");
     nav("/");
   }
-  
+    const user = userData.data;
+
   useEffect(() => {
     console.log("Users refreshed");
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.data.token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     };
     axios.get(`${BASE_URL}/user/fetchUsers`, config).then((response) => {
@@ -47,22 +49,21 @@ function Sidebar() {
       setUsers(response.data);
       // setRefresh(!refresh);
     });
-  }, [refresh,userData.data.token]);
+  }, [user.token]);
 
-  const user = userData.data;
-  useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
+  // useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       Authorization: `Bearer ${user.token}`,
+  //     },
+  //   };
 
-    axios.get(`${BASE_URL}/chat/`, config).then((response) => {
-      console.log("Data refresh in sidebar ", response.data);
-      // setConversations(response.data);
-      setRefresh(!refresh);
-    });
-  }, [refresh]);
+  //   axios.get(`${BASE_URL}/chat/`, config).then((response) => {
+  //     console.log("Data refresh in sidebar ", response.data);
+  //     // setConversations(response.data);
+  //     setRefresh(!refresh);
+  //   });
+  // }, [refresh]);
 
   return (
     <div className="sidebar-container">
@@ -153,7 +154,7 @@ function Sidebar() {
                 }}
               >
                 <div className="group-txt">
-                    <p className={"con-icon" + (lightTheme ? "" : " dark")}>{user.name[0]}</p>
+                    <p className={"con-icon" + (lightTheme ? "" : " dark")}><AccountCircleIcon/></p>
                     <p className={"con-title" + (lightTheme ? "" : " dark")}>
                       {user.name}
                     </p>
@@ -166,8 +167,6 @@ function Sidebar() {
             );
           })}
         </div>
-
-
       </motion.div>
       </div>
 
